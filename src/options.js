@@ -86,6 +86,13 @@ const options = {
       default: 1,
     },
     {
+      name: 'relativeMaxZoom',
+      type: 'boolean',
+      description: `Determines whether the maxZoom acts as a multiplier for minZoom instead of an absolute zoom value. E.g. if set to 3,
+	    the image will be zoomed between the minZoom and 3 * minZoom. Useful and required to zoom when smallImage is set to \`'stretch'\`.`,
+      default: false,
+    },
+    {
       name: 'initialZoom',
       type: 'string',
       description: `Determines the zoom when an image is loaded.

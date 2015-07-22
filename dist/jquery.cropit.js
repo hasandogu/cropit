@@ -298,10 +298,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (this.options.initialZoom === 'min') {
 	        this.initialZoom = 0; // Will be fixed when image loads
 	      } else if (this.options.initialZoom === 'image') {
-	        this.initialZoom = 1;
-	      } else {
-	        this.initialZoom = 0;
-	      }
+	          this.initialZoom = 1;
+	        } else {
+	          this.initialZoom = 0;
+	        }
 
 	      this.imageLoaded = false;
 
@@ -520,7 +520,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'setOffset',
 	    value: function setOffset(position) {
 	      this.offset = this.fixOffset(position);
-	      this.$preview.css('background-position', '' + this.offset.x + 'px ' + this.offset.y + 'px');
+	      this.$preview.css('background-position', this.offset.x + 'px ' + this.offset.y + 'px');
 	      if (this.options.imageBackground) {
 	        this.$imageBg.css({
 	          left: this.offset.x + this.imageBgBorderWidthArray[3],
@@ -600,6 +600,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        exportZoom: this.options.exportZoom,
 	        maxZoom: this.options.maxZoom,
 	        minZoom: this.options.minZoom,
+	        relativeMaxZoom: this.options.relativeMaxZoom,
 	        smallImage: this.options.smallImage
 	      });
 	      this.setZoom((0, _utils.exists)(zoom) ? zoom : this.zoom);
@@ -633,7 +634,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.zoomSliderPos = this.zoomer.getSliderPos(this.zoom);
 	      this.$zoomSlider.val(this.zoomSliderPos);
 
-	      this.$preview.css('background-size', '' + updatedWidth + 'px ' + updatedHeight + 'px');
+	      this.$preview.css('background-size', updatedWidth + 'px ' + updatedHeight + 'px');
 	      if (this.options.imageBackground) {
 	        this.$imageBg.css({
 	          width: updatedWidth,
@@ -843,6 +844,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var exportZoom = _ref.exportZoom;
 	      var maxZoom = _ref.maxZoom;
 	      var minZoom = _ref.minZoom;
+	      var relativeMaxZoom = _ref.relativeMaxZoom;
 	      var smallImage = _ref.smallImage;
 
 	      var widthRatio = previewSize.w / imageSize.w;
@@ -858,7 +860,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.minZoom = Math.min(this.minZoom, 1);
 	      }
 
-	      this.maxZoom = Math.max(this.minZoom, maxZoom / exportZoom);
+	      if (relativeMaxZoom) {
+	        this.maxZoom = Math.max(this.minZoom, this.minZoom * maxZoom / exportZoom);
+	      } else {
+	        this.maxZoom = Math.max(this.minZoom, maxZoom / exportZoom);
+	      }
 	    }
 	  }, {
 	    key: 'getZoom',
@@ -937,7 +943,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.ERRORS = ERRORS;
 	var eventName = function eventName(events) {
 	  return events.map(function (e) {
-	    return '' + e + '.cropit';
+	    return e + '.cropit';
 	  }).join(' ');
 	};
 	var EVENTS = {
@@ -1021,6 +1027,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    description: 'Determines how big the image can be zoomed. E.g. if set to 1.5, the image can be zoomed to 150% of its original size.',
 	    'default': 1
 	  }, {
+	    name: 'relativeMaxZoom',
+	    type: 'boolean',
+	    description: 'Determines whether the maxZoom acts as a multiplier for minZoom instead of an absolute zoom value. E.g. if set to 3,\n\t    the image will be zoomed between the minZoom and 3 * minZoom. Useful and required to zoom when smallImage is set to `\'stretch\'`.',
+	    'default': false
+	  }, {
 	    name: 'initialZoom',
 	    type: 'string',
 	    description: 'Determines the zoom when an image is loaded.\n        When set to `\'min\'`, image is zoomed to the smallest when loaded.\n        When set to `\'image\'`, image is zoomed to 100% when loaded.',
@@ -1101,7 +1112,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.exists = exists;
 	var round = function round(x) {
-	  return +(Math.round(x * 100) + 'e-2');
+	  return +(Math.round(x * 1e2) + 'e-2');
 	};
 	exports.round = round;
 

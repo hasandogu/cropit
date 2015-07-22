@@ -362,6 +362,7 @@ class Cropit {
       exportZoom: this.options.exportZoom,
       maxZoom: this.options.maxZoom,
       minZoom: this.options.minZoom,
+      relativeMaxZoom: this.options.relativeMaxZoom,
       smallImage: this.options.smallImage,
     });
     this.setZoom(exists(zoom) ? zoom : this.zoom);
