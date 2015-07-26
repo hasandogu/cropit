@@ -456,8 +456,14 @@ class Cropit {
   }
 
   preresizeImage(src, targetWidth, targetHeight) {
+    const canvasSrcClone = document.createElement('canvas');
+    const contextSrcClone = canvasSrcClone.getContext('2d');
+    canvasSrcClone.width = src.width; 
+    canvasSrcClone.height = src.height;
+    contextSrcClone.drawImage(src, 0, 0);
+
     const tmp = new Image();
-    tmp.src = src.src;
+    tmp.src = canvasSrcClone.toDataURL();
 
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');

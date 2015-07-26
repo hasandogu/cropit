@@ -693,8 +693,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'preresizeImage',
 	    value: function preresizeImage(src, targetWidth, targetHeight) {
+	      var canvasSrcClone = document.createElement('canvas');
+	      var contextSrcClone = canvasSrcClone.getContext('2d');
+	      canvasSrcClone.width = src.width;
+	      canvasSrcClone.height = src.height;
+	      contextSrcClone.drawImage(src, 0, 0);
+
 	      var tmp = new Image();
-	      tmp.src = src.src;
+	      tmp.src = canvasSrcClone.toDataURL();
 
 	      var canvas = document.createElement('canvas');
 	      var context = canvas.getContext('2d');
