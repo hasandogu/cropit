@@ -867,9 +867,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 
 	      if (relativeMaxZoom) {
-	        this.maxZoom = Math.max(this.minZoom, this.minZoom * maxZoom / exportZoom);
+	        this.maxZoom = Math.max(this.minZoom, this.minZoom * maxZoom);
 	      } else {
-	        this.maxZoom = Math.max(this.minZoom, maxZoom / exportZoom);
+	        this.maxZoom = Math.max(this.minZoom, maxZoom);
 	      }
 	    }
 	  }, {
